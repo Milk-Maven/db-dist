@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "buildAndMove": "tsc && prisma generate --schema=./src/prisma/schema.prisma && node moveToDist.js"
+    "buildAndMove": "tsc && prisma generate && node moveToDist.js"
   },
   "keywords": [],
   "author": "",

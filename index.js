@@ -3,27 +3,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const server_1 = require("@trpc/server");
+const coupons_1 = require("./coupons");
+const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
+const groups_1 = require("./groups");
+const listing_1 = require("./listing");
+const user_1 = require("./user");
 const PORT = process.env.PORT || 80;
-// export type AppRouter = typeof appRouter;
-// const prisma = new PrismaClient();
+const prisma = new client_1.PrismaClient();
 const createContext = ({ req, res }) => {
     return {};
 };
-// type Context = inferAsyncReturnType<typeof createContext>;
-// const t = initTRPC.context<Context>().create();
-// const publicProcedure = t.procedure;
-// const router = t.router;
-// const listingRoutes = ListingsRoutes(prisma, publicProcedure);
-// const couponRoutes = CouponRoutes(prisma, publicProcedure);
-// const userRoutes = UserRoutes(prisma, publicProcedure);
-// const groupRoutes = GroupsRoutes(prisma, publicProcedure);
-// const appRouter = router({
-//   ...listingRoutes,
-//   ...couponRoutes,
-//   ...userRoutes,
-//   ...groupRoutes,
-// });
+const t = server_1.initTRPC.context().create();
+const publicProcedure = t.procedure;
+const router = t.router;
+const listingRoutes = (0, listing_1.ListingsRoutes)(prisma, publicProcedure);
+const couponRoutes = (0, coupons_1.CouponRoutes)(prisma, publicProcedure);
+const userRoutes = (0, user_1.UserRoutes)(prisma, publicProcedure);
+const groupRoutes = (0, groups_1.GroupsRoutes)(prisma, publicProcedure);
+const appRouter = router(Object.assign(Object.assign(Object.assign(Object.assign({}, listingRoutes), couponRoutes), userRoutes), groupRoutes));
 const app = (0, express_1.default)();
 // app.use(
 //   "/trpc",
