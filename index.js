@@ -3,20 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import { inferAsyncReturnType, initTRPC } from "@trpc/server";
-// import { CouponRoutes } from "./coupons";
-// import { PrismaClient } from "@prisma/client";
-// import * as trpcExpress from "@trpc/server/adapters/express";
+const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
-// import { GroupsRoutes } from "./groups";
-// import { ListingsRoutes } from "./listing";
-// import { UserRoutes } from "./user";
 const PORT = process.env.PORT || 80;
 // export type AppRouter = typeof appRouter;
-// const prisma = new PrismaClient();
-// const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => {
-//   return {};
-// };
+const prisma = new client_1.PrismaClient();
+const createContext = ({ req, res }) => {
+    return {};
+};
 // type Context = inferAsyncReturnType<typeof createContext>;
 // const t = initTRPC.context<Context>().create();
 // const publicProcedure = t.procedure;
