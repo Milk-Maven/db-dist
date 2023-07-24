@@ -24,10 +24,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRoutes = void 0;
-const shared_1 = require("../shared");
+const shared_1 = require("./shared");
 const zod_1 = require("zod");
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const consts_1 = require("../consts");
+const consts_1 = require("./consts");
 const UserRoutes = (prisma, publicProcedure) => {
     if (!publicProcedure) {
         throw Error("public Procedure not found");

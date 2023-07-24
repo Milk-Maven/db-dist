@@ -21,7 +21,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CouponRoutes = exports.couponIsExpired = void 0;
-const shared_1 = require("../shared");
+const shared_1 = require("./shared");
 const zod_1 = require("zod");
 const couponIsExpired = (date) => {
     if (!date) {

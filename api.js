@@ -10,12 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.get = exports.post = void 0;
-// const baseUrl = "http://localhost:3001/trpc";
-const baseUrl = "https://venture-wisconsin-f695fbca93bb.herokuapp.com/trpc";
+const baseUrl = "http://localhost:3001/trpc";
+// const baseUrl = "https://venture-wisconsin-f695fbca93bb.herokuapp.com/trpc";
 const post = (endpoint, payload = {}) => __awaiter(void 0, void 0, void 0, function* () {
     const res = yield postData(`${baseUrl}/${endpoint}`, payload);
-    if (!res)
-        throw Error("Data not found");
     return res;
 });
 exports.post = post;

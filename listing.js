@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ListingsRoutes = void 0;
-const shared_1 = require("../shared");
-const consts_1 = require("../consts");
+const consts_1 = require("./consts");
+const shared_1 = require("./shared");
 const ListingsRoutes = (prisma, publicProcedure) => {
     if (!publicProcedure) {
         throw Error("public Procedure not found");
