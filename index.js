@@ -27,15 +27,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@trpc/server");
-// import { CreateHTTPContextOptions, createHTTPServer } from "@trpc/server/adapters/standalone";
 const coupons_1 = require("./routes/coupons");
 const listing_1 = require("./routes/listing");
 const user_1 = require("./routes/user");
 const groups_1 = require("./routes/groups");
-const output_1 = require("../prisma/prisma/output");
+const client_1 = require("@prisma/client");
 const trpcExpress = __importStar(require("@trpc/server/adapters/express"));
 const express_1 = __importDefault(require("express"));
-const prisma = new output_1.PrismaClient();
+const prisma = new client_1.PrismaClient();
 const createContext = ({ req, res }) => {
     return {};
 };
