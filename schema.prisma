@@ -1,14 +1,12 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-// 2
 generator client {
   provider = "prisma-client-js"
-  // output   = "./prisma/output"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "mysql"
+  url      = "mysql://bakotigaaim1w2ckat6x:pscale_pw_fNwFyaN3Q6fShwBk5eU650kU15HQwjDVF0ybnjiLCug@aws.connect.psdb.cloud/venture-wisconsin?sslaccept=strict"
+  // provider = "sqlite"
+  // url      = "file:./dev.db"
 }
 
 model User {
