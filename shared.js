@@ -35,7 +35,7 @@ var CouponTypes;
     CouponTypes["percent"] = "% off";
     CouponTypes["offers"] = "offers";
     CouponTypes["dollar"] = "$ off";
-})(CouponTypes = exports.CouponTypes || (exports.CouponTypes = {}));
+})(CouponTypes || (exports.CouponTypes = CouponTypes = {}));
 exports.createCouponSchema = zod_1.z.object({
     name: zod_1.z.string(),
     listingId: zod_1.z.number().int(),

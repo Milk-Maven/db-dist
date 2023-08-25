@@ -33,7 +33,6 @@ const UserRoutes = (prisma, publicProcedure) => {
         throw Error("public Procedure not found");
     }
     const validateUserPermission = (session, expectedRole) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log("h");
         const user = yield prisma.user.findFirst({
             where: { password: session },
         });
@@ -162,11 +161,9 @@ const UserRoutes = (prisma, publicProcedure) => {
         const user = yield prisma.user.findUnique({
             where: { email: input.userEmail },
         });
-        console.log(user);
         const listing = yield prisma.listing.findUnique({
             where: { name: input.listingName },
         });
-        console.log(listing);
         if (listing && user) {
             const res = yield prisma.pinnedUserListing.create({
                 data: { userId: user.id, listingId: listing.id },

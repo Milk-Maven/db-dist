@@ -29,8 +29,6 @@ const couponIsExpired = (date) => {
         return false;
     }
     //prisma likes to return the date as a string :(
-    console.log(new Date(date).toDateString());
-    console.log(new Date().getTime() > new Date(date).getTime());
     return new Date().getTime() > new Date(date).getTime();
 };
 exports.couponIsExpired = couponIsExpired;
@@ -41,7 +39,7 @@ const getDefaultCouponGroupName = (listingForCoupon) => {
     // alright so if a coupon doesn't have a group name explicitly given then assign it
     // the display title and id
     // listing can only have one default coupon
-    return `${listingForCoupon === null || listingForCoupon === void 0 ? void 0 : listingForCoupon.displayTitle}`;
+    return `${listingForCoupon === null || listingForCoupon === void 0 ? void 0 : listingForCoupon.name}`;
 };
 const CouponRoutes = (prisma, publicProcedure) => {
     if (!publicProcedure) {
@@ -152,6 +150,7 @@ const CouponRoutes = (prisma, publicProcedure) => {
                 },
             });
             if (!couponExistsForUser) {
+                // if the coupon does not exist for a user it may be the listing coupon
                 const isCouponForListing = yield prisma.coupon
                     .findUnique({
                     where: { id: input.couponId },
@@ -165,6 +164,7 @@ const CouponRoutes = (prisma, publicProcedure) => {
                 }))
                     .then(({ listing, coupon }) => getDefaultCouponGroupName(listing) === (coupon === null || coupon === void 0 ? void 0 : coupon.groupName));
                 if (isCouponForListing) {
+                    // if it is the coupon for listing adding it as a coupon for the user. this way we can track that they used it
                     const response = yield prisma.couponsForUser.create({
                         data: { couponId: input.couponId, used: true, userEmail: input.email },
                     });
@@ -242,20 +242,22 @@ const CouponRoutes = (prisma, publicProcedure) => {
     const getCouponsValidity = (selectedCoupon, couponsForUser, listings) => __awaiter(void 0, void 0, void 0, function* () {
         var _c;
         let couponUsedState = "INVALID";
+        const listing = listings.find((l) => { var _a; return (_a = l.id === (selectedCoupon === null || selectedCoupon === void 0 ? void 0 : selectedCoupon.listingId)) !== null && _a !== void 0 ? _a : ""; });
         const groupExists = yield prisma.groups
             .findUnique({ where: { groupName: (_c = selectedCoupon === null || selectedCoupon === void 0 ? void 0 : selectedCoupon.groupName) !== null && _c !== void 0 ? _c : "" } })
             .then((g) => !!g);
         const couponAvailableToUser = couponsForUser.find((c) => c.couponId === selectedCoupon.id);
-        if (couponAvailableToUser === null || couponAvailableToUser === void 0 ? void 0 : couponAvailableToUser.used)
+        if (couponAvailableToUser === undefined && selectedCoupon.groupName !== (listing === null || listing === void 0 ? void 0 : listing.name)) {
+            // needs to enroll in group
+            couponUsedState = "NEEDS_GROUP";
+        }
+        else if (couponAvailableToUser === null || couponAvailableToUser === void 0 ? void 0 : couponAvailableToUser.used)
             couponUsedState = "USED";
         else if ((0, exports.couponIsExpired)(selectedCoupon === null || selectedCoupon === void 0 ? void 0 : selectedCoupon.expirationDate))
             couponUsedState = "EXPIRED";
-        else if (getDefaultCouponGroupName(listings.find((l) => { var _a; return (_a = l.id === (selectedCoupon === null || selectedCoupon === void 0 ? void 0 : selectedCoupon.listingId)) !== null && _a !== void 0 ? _a : ""; })) ===
-            (selectedCoupon === null || selectedCoupon === void 0 ? void 0 : selectedCoupon.groupName) ||
-            groupExists) {
+        else if (getDefaultCouponGroupName(listing) === (selectedCoupon === null || selectedCoupon === void 0 ? void 0 : selectedCoupon.groupName) || groupExists) {
             couponUsedState = "VALID";
         }
-        console.log(couponUsedState);
         return { couponId: selectedCoupon.id, couponUsedState };
     });
     const getUserCouponRelation = publicProcedure
@@ -299,7 +301,6 @@ const CouponRoutes = (prisma, publicProcedure) => {
     })
         .mutation(({ input }) => __awaiter(void 0, void 0, void 0, function* () {
         const couponsByGroup = yield prisma.coupon.findMany({ where: { groupName: input.groupName } });
-        console.log(couponsByGroup);
         return couponsByGroup;
     }));
     const getListingForCoupon = publicProcedure

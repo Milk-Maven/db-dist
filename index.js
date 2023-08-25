@@ -53,19 +53,16 @@ app.use("/trpc", trpcExpress.createExpressMiddleware({
     createContext,
 }));
 app.get("/", (req, res) => res.send("Venture Wisconsin API"));
-app.listen(PORT, () => {
-    console.log("listening on", PORT);
+app.get("/privacy-policy", function (req, res) {
+    res.sendFile(__dirname + "/privacy-policy.html");
 });
-// export const addCouponGroups = async () => {
-//   await prisma.groups.create({ data: { groupName: "Venture 2023" } });
-//   await prisma.groups.create({ data: { groupName: "Brew Deck" } });
-//   await prisma.groups.create({ data: { groupName: "Wine Tags" } });
-// };
-// export const updateCouponGroups = async () => {
-//   await prisma.groups.update({
-//     where: { groupName: "Wine Tags" },
-//     data: { activationCode: "qwerty" },
-//   });
-// };
-// export const getCouponUserRelation = async () => {};
-// updateCouponGroups();
+app.listen(PORT, () => {
+    console.log(PORT);
+    // createData(prisma)
+    //   .then(() => {
+    //     console.log("success");
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
+});
