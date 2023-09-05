@@ -48,21 +48,19 @@ const userRoutes = (0, user_1.UserRoutes)(prisma, publicProcedure);
 const groupRoutes = (0, groups_1.GroupsRoutes)(prisma, publicProcedure);
 const appRouter = router(Object.assign(Object.assign(Object.assign(Object.assign({}, listingRoutes), couponRoutes), userRoutes), groupRoutes));
 const app = (0, express_1.default)();
+app.use(express_1.default.static(__dirname + '/public'));
 app.use("/trpc", trpcExpress.createExpressMiddleware({
     router: appRouter,
     createContext,
 }));
 app.get("/", (req, res) => res.send("Venture Wisconsin API"));
 app.get("/privacy-policy", function (req, res) {
-    res.sendFile(__dirname + "/privacy-policy.html");
+    res.sendFile(__dirname + "/public/privacy-policy.html");
+});
+app.get("/download-app", function (req, res) {
+    res.sendFile(__dirname + "/public/download-app.html");
 });
 app.listen(PORT, () => {
     console.log(PORT);
-    // createData(prisma)
-    //   .then(() => {
-    //     console.log("success");
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
+    console.log(__dirname);
 });
