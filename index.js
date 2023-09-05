@@ -55,10 +55,10 @@ app.use("/trpc", trpcExpress.createExpressMiddleware({
 }));
 app.get("/", (req, res) => res.send("Venture Wisconsin API"));
 app.get("/privacy-policy", function (req, res) {
-    res.sendFile(__dirname + "/public/privacy-policy.html");
+    res.sendFile(__dirname + "/privacy-policy.html");
 });
 app.get("/download-app", function (req, res) {
-    res.sendFile(__dirname + "/public/download-app.html");
+    res.sendFile(__dirname + "/download-app.html");
 });
 app.listen(PORT, () => {
     console.log(PORT);
